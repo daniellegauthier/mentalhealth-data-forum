@@ -23,7 +23,7 @@
 <script>
     var id = window.location.search.slice(1);
     var thread = threads.find(t => t.id == id);
-    var header = document.querySelector('.header');
+    var header = document.querySelector('.comments');
     var headerHtml = `
     <h4 class="title">
         ${thread.title}</h4>
@@ -33,27 +33,34 @@
                 <p class="comment-count">
                     $thread.comments.length} comments </p>
                     </div>
-                    header.insertAdjacentHTML('beforeend', headerHtml)
                     
-    function addComment(comment) {
+ header.insertAdjacentHTML('beforeend', headerHtml)
+                  
+    function addComment() {
+        var commentHtml = `
+            <div class="comment">
+                <div class="top-comment">
+            <p class="comment-ts">
+${new Date(comment.date).toLocalDateString}
+            </p>
+        <div class="comment-content">${comment.content} </div>
+        
+        `container.insertAdjacentHTML('beforeend', commentHtml)
+        }    
+                    }
+                    var container = document.querySelector('ol');
+                    var comments = document.querySelector('.comments'); 
+                    for (let comment of thread.comments) {
             var commentHtml = `
-                <div class="comment">
-                    <div class="top-comment">
-                        <p class="comment-ts">
-                            ${new Date(comment.date).toLocaleString()}
-                        </p>
-                    </div>
-                    <div class="comment-content">
-                        ${comment.content}
-                    </div>
-                </div>
-            `
-            comments.insertAdjacentHTML('beforeend', commentHtml);
-        }
-
-        var comments = document.querySelector('.comments');
-        for (let comment of thread.comments) {
-            addComment(comment);
+            <div class="comment">
+                <div class="top-comment">
+            <p class="comment-ts">
+${new Date(comment.date).toLocalDateString}
+            </p>
+        <div class="comment-content">${comment.content} </div>
+   
+        `
+        container.insertAdjacentHTML('beforeend', commentHtml)
         }
 
         var btn = document.querySelector('button');
@@ -62,12 +69,10 @@
             var comment = {
                 content: txt.value,
                 date: Date.now(),
+             
             }
-            addComment(comment);
-            txt.value = '';
-            thread.comments.push(comment);
-            localStorage.setItem('threads', JSON.stringify(threads));
-        })
+            var id = document.getElementByClassName("personid"); for (var i = 1; i<=list.length; i++) {id[i].innerHTML = i;}
+        }
 
                     </script>
 </body>
